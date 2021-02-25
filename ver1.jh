@@ -1,0 +1,53 @@
+application {
+  config {
+    baseName redress,
+    applicationType monolith,
+    packageName ec.europa.digit,
+    authenticationType jwt,
+    prodDatabaseType oracle,
+    clientFramework angular
+  }
+  entities *
+}
+
+entity Member {
+	id String,
+	name String,
+	firstName String,
+	lastName String,
+	email String,
+	unit String
+}
+
+entity MemberRole {
+    id String,
+    code String,
+    description String
+}
+
+
+entity MemberCommittee {
+	id UUID,
+    role MemberRole
+}
+
+
+entity Committee  {
+	id UUID,
+	callId Long,
+	callName String,
+	submissionDeadline DATE,
+	vademecum String,
+	processInstance String	
+}
+
+
+
+relationship OneToOne {
+	MemberCommittee{role} to MemberRole
+}
+
+relationship ManyToOne {
+	MemberCommittee{committee} to Committee
+    MemberCommittee{member} to Member
+}
